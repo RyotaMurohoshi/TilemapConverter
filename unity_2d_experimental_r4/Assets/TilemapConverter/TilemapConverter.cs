@@ -2,7 +2,7 @@
 using UnityEngine.Tilemaps;
 using UnityEditor;
 
-namespace TilemapConvertor
+namespace TilemapConverter
 {
 	public class Executor
 	{
