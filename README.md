@@ -1,4 +1,4 @@
-# TilemapConvertor
+# TilemapConverter
 
 TilemapConvertor converts Tilemap to SpriteRenders.
 
