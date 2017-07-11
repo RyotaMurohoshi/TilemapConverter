@@ -1,7 +1,7 @@
 # TilemapConverter
 
 UnityはUnity 2017.2でTilemapを導入する予定です。
-TilemapConvertorはTilemapを複数のSpriteRenderに変換します。
+TilemapConverterはTilemapを複数のSpriteRenderに変換します。
 
 Unity 2017.2上で生成したタイルマップをSpriteRenderに変換することで、過去のバージョンのUnityでSpriteRender群としてゲームに使うことができます。
 

@@ -9,3 +9,7 @@ Fix typo.
 # v0.2.1
 
 Fix typo.
+
+# v0.2.2
+
+Fix typo.

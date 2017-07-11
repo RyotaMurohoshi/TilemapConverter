@@ -120,7 +120,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.2.1
+  bundleVersion: 0.2.2
   preloadedAssets: []
   metroInputSource: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -141,7 +141,7 @@ PlayerSettings:
   resolutionScalingMode: 0
   applicationIdentifier: {}
   buildNumber:
-    Standalone: 201
+    Standalone: 202
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0
