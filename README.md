@@ -1,6 +1,6 @@
 # TilemapConverter
 
-TilemapConvertor converts Tilemap to SpriteRenders.
+TilemapConverter converts Tilemap to SpriteRenders.
 
 The feature of Tilemap will be introduced in Unity 2017.2.
 
