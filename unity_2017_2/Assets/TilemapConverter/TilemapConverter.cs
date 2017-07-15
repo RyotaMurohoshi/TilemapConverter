@@ -26,35 +26,24 @@ namespace TilemapConverter
             parent.transform.parent = gridGameObject.transform;
 
             var tileRenderer = tilemap.GetComponent<TilemapRenderer>();
-            var tilemapRotation = tilemap.orientationMatrix.rotation;
-            var tileAnchor = CalculateTilemapAnchor(tilemap);
+            var tileAnchor = tilemap.orientationMatrix.MultiplyPoint(tilemap.tileAnchor);
 
             foreach (var position in tilemap.cellBounds.allPositionsWithin)
             {
                 if (tilemap.HasTile(position))
                 {
-                    var matrix = tilemap.orientationMatrix * tilemap.GetTransformMatrix(position);
-                    var worldPosition = tilemap.CellToWorld(position) + tileAnchor;
                     var spriteRenderer = new GameObject(position.ToString(), typeof(SpriteRenderer)).GetComponent<SpriteRenderer>();
 
-                    spriteRenderer.transform.position = worldPosition;
+                    spriteRenderer.transform.position = tilemap.CellToWorld(position) + tileAnchor;
                     spriteRenderer.transform.parent = parent;
-                    spriteRenderer.transform.rotation = matrix.rotation;
-
-                    // Caution : Unity 2D Experimental Release 4 change lossyScale -> scale
-                    spriteRenderer.transform.localScale = matrix.lossyScale;
-
+                    spriteRenderer.transform.rotation = tilemap.orientationMatrix.rotation * tilemap.GetTransformMatrix(position).rotation;
                     spriteRenderer.sprite = tilemap.GetSprite(position);
-                    // Caution : Unity 2D Experimental Release 4, need calculating sorting order
                     spriteRenderer.color = tilemap.color;
                     spriteRenderer.sortingLayerName = tileRenderer.sortingLayerName;
+
+                    // Caution : Unity 2D Experimental Release 4, need calculating sorting order
                 }
             }
-        }
-
-        static Vector3 CalculateTilemapAnchor(Tilemap tilemap)
-        {
-            return tilemap.orientationMatrix.MultiplyPoint(tilemap.tileAnchor);
         }
     }
 }
