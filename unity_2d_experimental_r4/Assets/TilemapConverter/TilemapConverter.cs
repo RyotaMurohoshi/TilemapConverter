@@ -26,24 +26,18 @@ namespace TilemapConverter
             parent.transform.parent = gridGameObject.transform;
 
             var tileRenderer = tilemap.GetComponent<TilemapRenderer>();
-            var tilemapRotation = tilemap.orientationMatrix.rotation;
             var tileAnchor = CalculateTilemapAnchor(tilemap);
 
             foreach (var position in tilemap.cellBounds.allPositionsWithin)
             {
                 if (tilemap.HasTile(position))
                 {
-                    var matrix = tilemap.orientationMatrix * tilemap.GetTransformMatrix(position);
-                    var worldPosition = tilemap.CellToWorld(position) + tileAnchor;
                     var spriteRenderer = new GameObject(position.ToString(), typeof(SpriteRenderer)).GetComponent<SpriteRenderer>();
 
-                    spriteRenderer.transform.position = worldPosition;
+                    spriteRenderer.transform.position = tilemap.CellToWorld(position) + tileAnchor;
                     spriteRenderer.transform.parent = parent;
-                    spriteRenderer.transform.rotation = matrix.rotation;
-
-                    // Caution : Unity 2017.2 change scale -> lossyScale
-                    spriteRenderer.transform.localScale = matrix.scale;
-
+                    spriteRenderer.transform.rotation = (tilemap.orientationMatrix * tilemap.GetTransformMatrix(position)).rotation;
+                    spriteRenderer.transform.localScale = (tilemap.orientationMatrix * tilemap.GetTransformMatrix(position)).scale;
                     spriteRenderer.sprite = tilemap.GetSprite(position);
                     spriteRenderer.sortingOrder = CalculateSortingOrder(tilemap, position);
                     spriteRenderer.color = tilemap.color;
