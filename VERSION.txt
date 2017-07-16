@@ -13,3 +13,8 @@ Fix typo.
 # v0.2.2
 
 Fix typo.
+
+# v0.3.0
+
+Fix orientation bug.
+Chagned example tiles.
