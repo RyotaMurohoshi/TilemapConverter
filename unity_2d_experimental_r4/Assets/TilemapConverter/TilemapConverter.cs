@@ -25,7 +25,7 @@ namespace TilemapConverter
             var parent = new GameObject(tilemap.name).transform;
             parent.transform.parent = gridGameObject.transform;
 
-            var tileRenderer = tilemap.GetComponent<TilemapRenderer>();
+            var sortingLayerName = tilemap.GetComponent<TilemapRenderer>().sortingLayerName;
             var tileAnchor = CalculateTilemapAnchor(tilemap);
             tileAnchor.Scale(grid.cellSize);
 
@@ -42,7 +42,7 @@ namespace TilemapConverter
                     spriteRenderer.sprite = tilemap.GetSprite(position);
                     spriteRenderer.sortingOrder = CalculateSortingOrder(tilemap, position);
                     spriteRenderer.color = tilemap.color;
-                    spriteRenderer.sortingLayerName = tileRenderer.sortingLayerName;
+                    spriteRenderer.sortingLayerName = sortingLayerName;
                 }
             }
         }

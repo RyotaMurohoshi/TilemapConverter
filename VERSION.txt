@@ -22,3 +22,7 @@ Chagned example tiles.
 # v0.4.0
 
 Fix anchor bug.
+
+# v0.4.1
+
+Small code change.

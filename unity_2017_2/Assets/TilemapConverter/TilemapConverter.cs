@@ -25,7 +25,7 @@ namespace TilemapConverter
             var parent = new GameObject(tilemap.name).transform;
             parent.transform.parent = gridGameObject.transform;
 
-            var tileRenderer = tilemap.GetComponent<TilemapRenderer>();
+            var sortingLayerName = tilemap.GetComponent<TilemapRenderer>().sortingLayerName;
             var tileAnchor = tilemap.orientationMatrix.MultiplyPoint(tilemap.tileAnchor);
             tileAnchor.Scale(grid.cellSize);
 
@@ -40,7 +40,7 @@ namespace TilemapConverter
                     spriteRenderer.transform.rotation = tilemap.orientationMatrix.rotation * tilemap.GetTransformMatrix(position).rotation;
                     spriteRenderer.sprite = tilemap.GetSprite(position);
                     spriteRenderer.color = tilemap.color;
-                    spriteRenderer.sortingLayerName = tileRenderer.sortingLayerName;
+                    spriteRenderer.sortingLayerName = sortingLayerName;
 
                     // Caution : Unity 2D Experimental Release 4, need calculating sorting order
                 }
