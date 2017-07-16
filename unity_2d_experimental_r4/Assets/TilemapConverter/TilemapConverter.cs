@@ -15,18 +15,19 @@ namespace TilemapConverter
 
                 foreach (var tilemap in grid.GetComponentsInChildren<Tilemap>())
                 {
-                    CreateTilemap(tilemap, gridGameObject);
+                    CreateTilemap(grid, tilemap, gridGameObject);
                 }
             }
         }
 
-        static void CreateTilemap(Tilemap tilemap, GameObject gridGameObject)
+        static void CreateTilemap(Grid grid, Tilemap tilemap, GameObject gridGameObject)
         {
             var parent = new GameObject(tilemap.name).transform;
             parent.transform.parent = gridGameObject.transform;
 
             var tileRenderer = tilemap.GetComponent<TilemapRenderer>();
             var tileAnchor = CalculateTilemapAnchor(tilemap);
+            tileAnchor.Scale(grid.cellSize);
 
             foreach (var position in tilemap.cellBounds.allPositionsWithin)
             {
