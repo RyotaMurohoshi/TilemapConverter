@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: rect_tile_1
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: dec03638e16474f2f80a55edf8d9b1b5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 874f9f368d31b6b4fa446643335c5616, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
