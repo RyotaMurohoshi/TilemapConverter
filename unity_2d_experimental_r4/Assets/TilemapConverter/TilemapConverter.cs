@@ -15,15 +15,16 @@ namespace TilemapConverter
 
                 foreach (var tilemap in grid.GetComponentsInChildren<Tilemap>())
                 {
-                    CreateTilemap(grid, tilemap, gridGameObject);
+                    var tilemapGameObject = CreateTilemap(grid, tilemap);
+
+                    tilemapGameObject.transform.parent = gridGameObject.transform;
                 }
             }
         }
 
-        static void CreateTilemap(Grid grid, Tilemap tilemap, GameObject gridGameObject)
+        static GameObject CreateTilemap(Grid grid, Tilemap tilemap)
         {
-            var parent = new GameObject(tilemap.name).transform;
-            parent.transform.parent = gridGameObject.transform;
+            var tilemapGameObject = new GameObject(tilemap.name);
 
             var sortingLayerName = tilemap.GetComponent<TilemapRenderer>().sortingLayerName;
             var tileAnchor = CalculateTilemapAnchor(tilemap);
@@ -33,18 +34,30 @@ namespace TilemapConverter
             {
                 if (tilemap.HasTile(position))
                 {
-                    var spriteRenderer = new GameObject(position.ToString(), typeof(SpriteRenderer)).GetComponent<SpriteRenderer>();
+                    var tileGameObject = CreateTile(tilemap, position, sortingLayerName, tileAnchor);
 
-                    spriteRenderer.transform.position = tilemap.CellToWorld(position) + tileAnchor;
-                    spriteRenderer.transform.parent = parent;
-                    spriteRenderer.transform.rotation = (tilemap.orientationMatrix * tilemap.GetTransformMatrix(position)).rotation;
-                    spriteRenderer.transform.localScale = (tilemap.orientationMatrix * tilemap.GetTransformMatrix(position)).scale;
-                    spriteRenderer.sprite = tilemap.GetSprite(position);
-                    spriteRenderer.sortingOrder = CalculateSortingOrder(tilemap, position);
-                    spriteRenderer.color = tilemap.color;
-                    spriteRenderer.sortingLayerName = sortingLayerName;
+                    tileGameObject.transform.parent = tilemapGameObject.transform;
                 }
             }
+
+            return tilemapGameObject;
+        }
+
+        static GameObject CreateTile(Tilemap tilemap, Vector3Int position, string sortingLayerName, Vector3 tileAnchor)
+        {
+            var tileGameObject = new GameObject(position.ToString(), typeof(SpriteRenderer));
+
+            tileGameObject.transform.position = tilemap.CellToWorld(position) + tileAnchor;
+            tileGameObject.transform.rotation = (tilemap.orientationMatrix * tilemap.GetTransformMatrix(position)).rotation;
+            tileGameObject.transform.localScale = (tilemap.orientationMatrix * tilemap.GetTransformMatrix(position)).scale;
+
+            var spriteRenderer = tileGameObject.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = tilemap.GetSprite(position);
+            spriteRenderer.sortingOrder = CalculateSortingOrder(tilemap, position);
+            spriteRenderer.color = tilemap.color;
+            spriteRenderer.sortingLayerName = sortingLayerName;
+
+            return tileGameObject;
         }
 
         static int CalculateSortingOrder(Tilemap tilemap, Vector3Int position)

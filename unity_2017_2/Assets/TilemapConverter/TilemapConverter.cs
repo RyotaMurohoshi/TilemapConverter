@@ -15,15 +15,16 @@ namespace TilemapConverter
 
                 foreach (var tilemap in grid.GetComponentsInChildren<Tilemap>())
                 {
-                    CreateTilemap(grid, tilemap, gridGameObject);
+                    var tilemapGameObject = CreateTilemap(grid, tilemap);
+
+                    tilemapGameObject.transform.parent = gridGameObject.transform;
                 }
             }
         }
 
-        static void CreateTilemap(Grid grid, Tilemap tilemap, GameObject gridGameObject)
+        static GameObject CreateTilemap(Grid grid, Tilemap tilemap)
         {
-            var parent = new GameObject(tilemap.name).transform;
-            parent.transform.parent = gridGameObject.transform;
+            var tilemapGameObject = new GameObject(tilemap.name);
 
             var sortingLayerName = tilemap.GetComponent<TilemapRenderer>().sortingLayerName;
             var tileAnchor = tilemap.orientationMatrix.MultiplyPoint(tilemap.tileAnchor);
@@ -33,18 +34,30 @@ namespace TilemapConverter
             {
                 if (tilemap.HasTile(position))
                 {
-                    var spriteRenderer = new GameObject(position.ToString(), typeof(SpriteRenderer)).GetComponent<SpriteRenderer>();
+                    var tileGameObject = CreateTile(tilemap, position, sortingLayerName, tileAnchor);
 
-                    spriteRenderer.transform.position = tilemap.CellToWorld(position) + tileAnchor;
-                    spriteRenderer.transform.parent = parent;
-                    spriteRenderer.transform.rotation = tilemap.orientationMatrix.rotation * tilemap.GetTransformMatrix(position).rotation;
-                    spriteRenderer.sprite = tilemap.GetSprite(position);
-                    spriteRenderer.color = tilemap.color;
-                    spriteRenderer.sortingLayerName = sortingLayerName;
-
-                    // Caution : Unity 2D Experimental Release 4, need calculating sorting order
+                    tileGameObject.transform.parent = tilemapGameObject.transform;
                 }
             }
+
+            return tilemapGameObject;
+        }
+
+        static GameObject CreateTile(Tilemap tilemap, Vector3Int position, string sortingLayerName, Vector3 tileAnchor)
+        {
+            var tileGameObject = new GameObject(position.ToString(), typeof(SpriteRenderer));
+
+            tileGameObject.transform.position = tilemap.CellToWorld(position) + tileAnchor;
+            tileGameObject.transform.rotation = tilemap.orientationMatrix.rotation * tilemap.GetTransformMatrix(position).rotation;
+
+            var spriteRenderer = tileGameObject.GetComponent<SpriteRenderer>();
+            spriteRenderer.sprite = tilemap.GetSprite(position);
+            spriteRenderer.color = tilemap.color;
+            spriteRenderer.sortingLayerName = sortingLayerName;
+
+            // Caution : Unity 2D Experimental Release 4, need calculating sorting order
+
+            return tileGameObject;
         }
     }
 }
