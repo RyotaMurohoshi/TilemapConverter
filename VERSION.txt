@@ -26,3 +26,7 @@ Fix anchor bug.
 # v0.4.1
 
 Small code change.
+
+# v0.4.2
+
+Small change structure.
